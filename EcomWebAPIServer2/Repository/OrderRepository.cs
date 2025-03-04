@@ -29,7 +29,7 @@ namespace EcomWebAPIServer2.Repository
             return db.Orders.Where(x => x.OrderId == id).FirstOrDefault();
         }
 
-        public List<Order> Order => throw new NotImplementedException();
+
 
         public List<Order> GetOrders()
         {

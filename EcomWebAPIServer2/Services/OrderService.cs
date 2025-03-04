@@ -41,15 +41,11 @@ namespace EcomWebAPIServer2.Services
                 return c;
             }
 
-            public List<Order> GetOrder()
+            public List<Order> GetOrders()
             {
-                return repo.Order;
+                return repo.GetOrders();
             }
 
-        public List<Order> GetOrders()
-        {
-            throw new NotImplementedException();
-        }
 
         public int UpdateOrder(int id, Order order)
             {
@@ -58,16 +54,6 @@ namespace EcomWebAPIServer2.Services
                     throw new OrderNotFoundException($"Order with Order id {id} does not exists");
                 }
                 return repo.UpdateOrder(id, order);
-            }
-
-            Order IOrderService.GetOrder(int id)
-            {
-                throw new NotImplementedException();
-            }
-
-            Order IOrderService.GetOrder(int id)
-            {
-                throw new NotImplementedException();
             }
         }
     }
