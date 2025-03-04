@@ -13,7 +13,9 @@ namespace EcomWebAPIServer2.Controllers
     [ApiController]
     public class AdminsController : ControllerBase
     {
-        private readonly EcomContext _context;
+
+        private readonly EcomContext _context1;
+
 
         public AdminsController(EcomContext context)
         {
