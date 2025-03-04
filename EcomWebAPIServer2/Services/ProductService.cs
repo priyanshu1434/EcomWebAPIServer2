@@ -51,7 +51,7 @@ namespace EcomWebAPIServer2.Services
         {
             if (repo.GetProduct(id) == null)
             {
-                throw new OrderNotFoundException($"Product with product id {id} does not exists");
+                throw new ProductNotFoundException($"Product with product id {id} does not exists");
             }
             return repo.UpdateProduct(id, order);
         }

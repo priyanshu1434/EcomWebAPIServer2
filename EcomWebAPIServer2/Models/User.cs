@@ -20,8 +20,6 @@ namespace EcomWebAPIServer2.Models
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
         public string Password { get; set; }
 
-
-        [Phone(ErrorMessage = "Invalid phone number format")]
         public int PhoneNumber { get; set; }
 
 

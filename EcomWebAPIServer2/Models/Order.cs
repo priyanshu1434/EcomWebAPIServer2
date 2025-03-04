@@ -7,25 +7,22 @@ namespace EcomWebAPIServer2.Models
     {
         [Key]
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
 
         public int OrderId { get; set; }
 
         [Required]
 
         public int UserId { get; set; }
-       // [ForeignKey("UserId")]
-        //public virtual User User { get; set; }
+
 
         [Required]
         public int ProductId { get; set; }
-     //   [ForeignKey("ProductId")]
-      //  public virtual Product Product { get; set; }
+
 
         [Required]
         public int PaymentId { get; set; }
-       // [ForeignKey("PaymentId")]
-        //public virtual Payment Payment { get; set; }
+
 
         [Required]
 

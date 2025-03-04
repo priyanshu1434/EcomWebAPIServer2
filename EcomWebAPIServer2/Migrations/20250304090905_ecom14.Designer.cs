@@ -4,6 +4,7 @@ using EcomWebAPIServer2.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EcomWebAPIServer2.Migrations
 {
     [DbContext(typeof(EcomContext))]
-    partial class EcomContextModelSnapshot : ModelSnapshot
+    [Migration("20250304090905_ecom14")]
+    partial class ecom14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,13 +67,20 @@ namespace EcomWebAPIServer2.Migrations
 
                     b.HasKey("CartItemId");
 
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
                     b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("EcomWebAPIServer2.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
                     b.Property<DateTime>("OrderDateTime")
                         .HasColumnType("datetime2");
@@ -186,6 +196,25 @@ namespace EcomWebAPIServer2.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("EcomWebAPIServer2.Models.CartItem", b =>
+                {
+                    b.HasOne("EcomWebAPIServer2.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EcomWebAPIServer2.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EcomWebAPIServer2.Models.Payment", b =>
