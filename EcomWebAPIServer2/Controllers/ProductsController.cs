@@ -14,11 +14,11 @@ namespace EcomWebAPIServer2.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ExceptionHandler]
-    public class ProductController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IProductService service;
 
-        public ProductController(IProductService order)
+        public ProductsController(IProductService service)
         {
             this.service = service;
         }

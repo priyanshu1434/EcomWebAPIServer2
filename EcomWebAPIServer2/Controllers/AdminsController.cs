@@ -6,118 +6,56 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EcomWebAPIServer2.Models;
+using EcomWebAPIServer2.Services;
+using EcomWebAPIServer2.Exception;
 
 namespace EcomWebAPIServer2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ExceptionHandler]
     public class AdminsController : ControllerBase
     {
 
-        private readonly EcomContext _context;
+        private readonly IAdminService service;
 
-
-        public AdminsController(EcomContext context)
+        public AdminsController(IAdminService service)
         {
-            _context = context;
+            this.service = service;
+
         }
 
-        // GET: api/Admins
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Admin>>> GetAdmins()
+        public IActionResult Get()
         {
-            return await _context.Admins.ToListAsync();
+            return Ok(service.GetAdmins());
         }
 
-        // GET: api/Admins/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Admin>> GetAdmin(int id)
+        [HttpGet]
+        [Route("{id}")]
+        public IActionResult Get(int id)
         {
-            var admin = await _context.Admins.FindAsync(id);
-
-            if (admin == null)
-            {
-                return NotFound();
-            }
-
-            return admin;
+            return Ok(service.GetAdmin(id));
         }
 
-        // PUT: api/Admins/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAdmin(int id, Admin admin)
-        {
-            if (id != admin.AdminId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(admin).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AdminExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Admins
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Admin>> PostAdmin(Admin admin)
+        public IActionResult Post(Admin user)
         {
-            _context.Admins.Add(admin);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (AdminExists(admin.AdminId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetAdmin", new { id = admin.AdminId }, admin);
+            return StatusCode(201, service.AddAdmin(user));
         }
 
-        // DELETE: api/Admins/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAdmin(int id)
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Put(int id, Admin user)
         {
-            var admin = await _context.Admins.FindAsync(id);
-            if (admin == null)
-            {
-                return NotFound();
-            }
-
-            _context.Admins.Remove(admin);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok(service.UpdateAdmin(id, user));
         }
 
-        private bool AdminExists(int id)
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete(int id)
         {
-            return _context.Admins.Any(e => e.AdminId == id);
+            return Ok(service.DeleteAdmin(id));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace EcomWebAPIServer2.Controllers
         {
             private readonly IOrderService service;
 
-            public OrderController(IOrderService order)
+            public OrderController(IOrderService service)
             {
                 this.service = service;
             }
