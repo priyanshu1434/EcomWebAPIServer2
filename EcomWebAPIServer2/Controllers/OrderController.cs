@@ -1,18 +1,18 @@
-﻿using EcomWebAPIServer2.Models;
+﻿using EcomWebAPIServer2.Exception;
+using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomWebAPIServer2.Controllers
 {
-    public class OrderController
-    {
         [Route("api/[controller]")]
         [ApiController]
-        public class OederController : ControllerBase
+        [ExceptionHandler]
+        public class OrderController : ControllerBase
         {
             private readonly IOrderService service;
 
-            public OederController(IOrderService order)
+            public OrderController(IOrderService order)
             {
                 this.service = service;
             }
@@ -50,5 +50,4 @@ namespace EcomWebAPIServer2.Controllers
                 return Ok(service.DeleteOrder(id));
             }
         }
-    }
 }
