@@ -27,7 +27,7 @@ namespace EcomWebAPIServer2.Models
         public DateTime PaymentDateTime { get; set; }
 
 
-        public virtual ICollection<Order> Orders { get; set; }
+   //     public virtual ICollection<Order> Orders { get; set; }
 
     }
 }

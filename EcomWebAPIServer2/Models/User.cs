@@ -27,10 +27,10 @@ namespace EcomWebAPIServer2.Models
 
         public string ShippingAddress { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+      //  public virtual ICollection<Order> Orders { get; set; }
 
-        public virtual ICollection<CartItem> CartItems { get; set; }
+      //  public virtual ICollection<CartItem> CartItems { get; set; }
 
-        public virtual ICollection<Payment> Payments { get; set; }
+      //  public virtual ICollection<Payment> Payments { get; set; }
     }
 }

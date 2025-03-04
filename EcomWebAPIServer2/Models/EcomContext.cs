@@ -10,14 +10,14 @@ namespace EcomWebAPIServer2.Models
             Database.EnsureCreated();
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.User)
-                .WithMany(u => u.Orders)
-                .HasForeignKey(o => o.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // or .OnDelete(DeleteBehavior.NoAction)
-        }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Order>()
+        //        .HasOne(o => o.User)
+        //        .WithMany(u => u.Orders)
+        //        .HasForeignKey(o => o.UserId)
+        //        .OnDelete(DeleteBehavior.Restrict); // or .OnDelete(DeleteBehavior.NoAction)
+        //}
 
         public DbSet<Admin> Admins { get; set; }
         public DbSet<User> Users { get; set; }

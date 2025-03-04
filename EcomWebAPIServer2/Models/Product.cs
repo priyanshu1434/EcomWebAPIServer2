@@ -19,8 +19,8 @@ namespace EcomWebAPIServer2.Models
 
         public string Category { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+     //   public virtual ICollection<Order> Orders { get; set; }
 
-        public virtual ICollection<CartItem> CartItems { get; set; }
+     //   public virtual ICollection<CartItem> CartItems { get; set; }
     }
 }
