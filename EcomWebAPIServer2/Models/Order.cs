@@ -13,19 +13,19 @@ namespace EcomWebAPIServer2.Models
 
         [Required]
 
-        [ForeignKey("User")]
-
         public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
 
         [Required]
-
-        [ForeignKey("Product")]
-
         public int ProductId { get; set; }
+        [ForeignKey("ProductId")]
+        public virtual Product Product { get; set; }
 
         [Required]
-        [ForeignKey("PaymentId")]
         public int PaymentId { get; set; }
+        [ForeignKey("PaymentId")]
+        public virtual Payment Payment { get; set; }
 
         [Required]
 
@@ -53,10 +53,7 @@ namespace EcomWebAPIServer2.Models
 
         public DateTime OrderDateTime { get; set; }
 
-        public virtual User User { get; set; }
 
-        public virtual Product Product { get; set; }
 
-        public virtual Payment Payment { get; set; }
     }
 }
