@@ -1,4 +1,7 @@
+using EcomWebAPIServer2.Exception;
 using EcomWebAPIServer2.Models;
+using EcomWebAPIServer2.Repository;
+using EcomWebAPIServer2.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<EcomContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection")));
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ExceptionHandlerAttribute>();
 
 var app = builder.Build();
 
