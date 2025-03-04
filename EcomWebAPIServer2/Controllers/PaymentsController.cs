@@ -4,61 +4,55 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using EcomWebAPIServer2.Models;
-using EcomWebAPIServer2.Services;
 using EcomWebAPIServer2.Exception;
-
+using EcomWebAPIServer2.Services;
 
 namespace EcomWebAPIServer2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [ExceptionHandler]
-    //[MyAsyncActionFilter("Async controller")]
-    public class UsersController : ControllerBase
+    public class PaymentController : ControllerBase
     {
-        private readonly IUserService service;
+        private readonly IPaymentService service;
 
-        public UsersController(IUserService service)
+        public PaymentController(IPaymentService service)
         {
             this.service = service;
-
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(service.GetUsers());
+            return Ok(service.GetPayments());
         }
 
         [HttpGet]
         [Route("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(service.GetUser(id));
+            return Ok(service.GetPayment(id));
         }
 
         [HttpPost]
-        public IActionResult Post(User user)
+        public IActionResult Post(Payment payment)
         {
-            return StatusCode(201, service.AddUser(user));
+            return StatusCode(201, service.AddPayment(payment));
         }
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Put(int id, User user)
+        public IActionResult Put(int id, Payment payment)
         {
-            return Ok(service.UpdateUser(id, user));
+            return Ok(service.UpdatePayment(id, payment));
         }
 
         [HttpDelete]
         [Route("{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok(service.DeleteUser(id));
+            return Ok(service.DeletePayment(id));
         }
     }
-
 }
-

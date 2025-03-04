@@ -1,11 +1,7 @@
 ﻿using EcomWebAPIServer2.Exception;
 using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Repository;
-using EcomWebAPIServer2.Exception;
 
-using EcomWebAPIServer2.Models;
-
-using EcomWebAPIServer2.Repository;
 
 namespace EcomWebAPIServer2.Services
 
