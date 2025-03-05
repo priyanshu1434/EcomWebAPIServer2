@@ -21,6 +21,6 @@ namespace EcomWebAPIServer2.Models
 
         public int Quantity { get; set; }
 
-
+        // public Product Product { get; set; }
     }
 }
