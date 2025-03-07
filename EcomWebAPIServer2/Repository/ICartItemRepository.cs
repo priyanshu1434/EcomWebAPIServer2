@@ -11,5 +11,6 @@ namespace EcomWebAPIServer2.Repository
         int DeleteCartItem(int id);//delete
 
         object GetCartItemsByUserId(int userId); //read data of that user id
+
     }
 }
