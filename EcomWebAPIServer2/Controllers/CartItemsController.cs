@@ -31,9 +31,9 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpGet]
         [Route("user-cart/{id}")]
-        public IActionResult GetCart(int userid)
+        public IActionResult GetCart(int id)
         {
-            return Ok(service.GetCartItemsByUserId(userid));
+            return Ok(service.GetCartItemsByUserId(id));
         }
 
         [HttpGet]
