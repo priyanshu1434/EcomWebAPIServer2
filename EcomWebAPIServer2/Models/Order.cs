@@ -21,10 +21,6 @@ namespace EcomWebAPIServer2.Models
 
 
         [Required]
-        public int PaymentId { get; set; }
-
-
-        [Required]
 
         public double TotalPrice { get; set; }
 

@@ -68,10 +68,10 @@ namespace EcomWebAPIServer2.Repository
                                  UserId = cartItem.UserId,
                                  ProductId = cartItem.ProductId,
                                  Quantity = cartItem.Quantity,
-                                 ProductName = product.Name,
-                                 ProductPrice = product.Price,
-                                 ProductDes = product.Description,
-                                 ProductCate = product.Category
+                                 ProductName = product.ProductName,
+                                 ProductPrice = product.ProductPrice,
+                                 ProductDes = product.ProductDescription,
+                                 ProductCate = product.ProductCategory
                              }).ToList();
 
             return cartItems;

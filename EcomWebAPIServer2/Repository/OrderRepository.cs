@@ -33,10 +33,10 @@ namespace EcomWebAPIServer2.Repository
                                  UserId = cartItem.UserId,
                                  ProductId = cartItem.ProductId,
                                  Quantity = cartItem.Quantity,
-                                 ProductName = product.Name,
-                                 ProductPrice = product.Price,
-                                 ProductDes = product.Description,
-                                 ProductCate = product.Category
+                                 ProductName = product.ProductName,
+                                 ProductPrice = product.ProductPrice,
+                                 ProductDes = product.ProductDescription,
+                                 ProductCate = product.ProductCategory
                              }).ToList();
 
             foreach (var cartItem in cartItems) 
@@ -88,27 +88,25 @@ namespace EcomWebAPIServer2.Repository
             var orders = (from order in db.Orders
                              join product in db.Products on order.ProductId equals product.ProductId
                              join user in db.Users on order.UserId equals user.UserId
-                             join payment in db.Payments on order.PaymentId equals payment.PaymentId
                              where order.UserId == userId
                              select new
                              {
                                  OrderId = order.OrderId,
                                  UserId = order.UserId,
                                  ProductId = order.ProductId,
-                                 PaymentId = order.PaymentId,
                                  TotalPrice = order.TotalPrice,
                                  ShippingAddress = order.ShippingAddress, 
                                  OrderStatus = order.OrderStatus,
                                  PaymentStatus = order.PaymentStatus,
                                  DateTime = order.OrderDateTime,
-                                 ProductName = product.Name,
-                                 ProductPrice = product.Price,
-                                 ProductDes = product.Description,
-                                 ProductCate = product.Category,
+                                 ProductName = product.ProductName,
+                                 ProductPrice = product.ProductPrice,
+                                 ProductDes = product.ProductDescription,
+                                 ProductCate = product.ProductCategory,
                                  UserName = user.Name,
                                  email =  user.Email,
-                                 phone = user.PhoneNumber,
-                                 PaymentMethod = payment.PaymentMethod
+                                 phone = user.PhoneNumber
+                              
 
                              }).ToList();
 

@@ -11,13 +11,15 @@ namespace EcomWebAPIServer2.Models
         public int ProductId { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string ProductName { get; set; }
 
-        public string Description { get; set; }
+        public string ProductDescription { get; set; }
 
-        public double Price { get; set; }
+        public double ProductPrice { get; set; }
 
-        public string Category { get; set; }
+        public string ProductCategory { get; set; }
+
+        public string ProductImgURL { get; set; }
 
 
     }

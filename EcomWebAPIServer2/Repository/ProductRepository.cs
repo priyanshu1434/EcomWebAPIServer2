@@ -31,7 +31,7 @@ namespace EcomWebAPIServer2.Repository
 
         public Product GetProductByName(string productname)
         {
-            return db.Products.Where(x => x.Name == productname).FirstOrDefault();
+            return db.Products.Where(x => x.ProductName == productname).FirstOrDefault();
         }
 
 
@@ -45,10 +45,11 @@ namespace EcomWebAPIServer2.Repository
         public int UpdateProduct(int id, Product product)
         {
             Product c = db.Products.Where(x => x.ProductId == id).FirstOrDefault();
-            c.Name = product.Name;
-            c.Description = product.Description;
-            c.Price = product.Price;
-            c.Category = product.Category;
+            c.ProductName = product.ProductName;
+            c.ProductDescription = product.ProductDescription;
+            c.ProductPrice = product.ProductPrice;
+            c.ProductCategory = product.ProductCategory;
+            c.ProductImgURL = product.ProductImgURL;
             db.Entry<Product>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             return db.SaveChanges();
         }
