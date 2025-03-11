@@ -12,8 +12,17 @@ namespace EcomWebAPIServer2.Repository
         {
             this.db = db;
         }
+
+        static int UniqueNumberGenerate()
+        {
+            int timestamp = (int)(DateTime.UtcNow.Ticks % 1000000000);
+            int randomPart = new Random().Next(1000, 9999);
+            return timestamp + randomPart;
+        }
+
         public int AddCartItem(CartItem product)
         {
+            product.CartItemId = UniqueNumberGenerate();
             db.CartItems.Add(product);
             return db.SaveChanges();
         }

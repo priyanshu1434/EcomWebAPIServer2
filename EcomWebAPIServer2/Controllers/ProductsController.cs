@@ -36,6 +36,13 @@ namespace EcomWebAPIServer2.Controllers
             return Ok(service.GetProduct(id));
         }
 
+        [HttpGet]
+        [Route("product/byname/{productname}")]
+        public IActionResult GetProductByName(string productname)
+        {
+            return Ok(service.GetProductByName(productname));
+        }
+
         [HttpPost]
         public IActionResult Post(Product product)
         {

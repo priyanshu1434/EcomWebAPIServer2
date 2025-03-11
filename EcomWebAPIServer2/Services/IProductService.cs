@@ -9,5 +9,8 @@ namespace EcomWebAPIServer2.Services
         int AddProduct(Product product);//insert
         int UpdateProduct(int id, Product user);//update
         int DeleteProduct(int id);//delete
+
+
+        Product GetProductByName(string productName);
     }
 }

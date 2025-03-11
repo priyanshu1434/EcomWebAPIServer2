@@ -41,6 +41,16 @@ namespace EcomWebAPIServer2.Services
             return c;
         }
 
+        public Product GetProductByName(string productName)
+        {
+            Product c = repo.GetProductByName(productName);
+            if (c == null)
+            {
+                throw new ProductNotFoundException($"Product with product name {productName} does not exists");
+            }
+            return c;
+        }
+
         public List<Product> GetProducts()
         {
             return repo.GetProducts();
@@ -55,5 +65,7 @@ namespace EcomWebAPIServer2.Services
             }
             return repo.UpdateProduct(id, order);
         }
+
+
     }
 }

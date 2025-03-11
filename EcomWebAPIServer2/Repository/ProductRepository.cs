@@ -29,6 +29,11 @@ namespace EcomWebAPIServer2.Repository
             return db.Products.Where(x => x.ProductId == id).FirstOrDefault();
         }
 
+        public Product GetProductByName(string productname)
+        {
+            return db.Products.Where(x => x.Name == productname).FirstOrDefault();
+        }
+
 
 
         public List<Product> GetProducts()
