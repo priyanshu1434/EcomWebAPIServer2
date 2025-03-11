@@ -55,6 +55,15 @@ namespace EcomWebAPIServer2.Services
                 }
                 return repo.UpdateOrder(id, order);
             }
+
+        public object GetOrdersByUserId(int userid)
+        {
+            if (repo.GetOrdersByUserId(userid) == null)
+            {
+                throw new ProductNotFoundException($"Order with product id {userid} does not exists");
+            }
+            return repo.GetOrdersByUserId(userid);
         }
+    }
     }
 

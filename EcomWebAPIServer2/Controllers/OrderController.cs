@@ -30,7 +30,14 @@ namespace EcomWebAPIServer2.Controllers
                 return Ok(service.GetOrder(id));
             }
 
-            [HttpPost]
+            [HttpGet]
+            [Route("user-order/{id}")]
+            public IActionResult Getorder(int id)
+            {
+                return Ok(service.GetOrdersByUserId(id));
+            }
+
+        [HttpPost]
             public IActionResult Post(Order order)
             {
                 return StatusCode(201, service.AddOrder(order));

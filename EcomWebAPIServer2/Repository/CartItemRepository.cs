@@ -12,6 +12,11 @@ namespace EcomWebAPIServer2.Repository
         {
             this.db = db;
         }
+
+        public CartItemRepository()
+        {
+        }
+
         public int AddCartItem(CartItem product)
         {
             db.CartItems.Add(product);

@@ -10,5 +10,7 @@ namespace EcomWebAPIServer2.Repository
         int AddOrder(Order order);//insert
         int UpdateOrder(int id, Order order);//update
         int DeleteOrder(int id);//delete
+
+        object GetOrdersByUserId(int userId); // read data by user id
     }
 }
