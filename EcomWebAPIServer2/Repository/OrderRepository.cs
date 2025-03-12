@@ -1,6 +1,7 @@
 ﻿using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 namespace EcomWebAPIServer2.Repository
 {
@@ -24,6 +25,7 @@ namespace EcomWebAPIServer2.Repository
         public int AddOrder(Order order)
         {
             order.OrderId = UniqueNumberGenerate();
+            order.OrderStatus = "Successfully Placed";
 
             var cartItems = (from cartItem in db.CartItems
                              join product in db.Products on cartItem.ProductId equals product.ProductId
@@ -47,9 +49,26 @@ namespace EcomWebAPIServer2.Repository
             {
                 order.TotalPrice += cartItem.ProductPrice * cartItem.Quantity;
             }
-            
+
             db.Orders.Add(order);
-            return db.SaveChanges();
+            int result = db.SaveChanges();
+
+            if (result > 0)
+            {
+                // Update the OrderId in the Payment table
+                var payment = db.Payments.FirstOrDefault(p => p.UserId == order.UserId && p.OrderId == 0);
+                if (payment != null)
+                {
+                    payment.OrderId = order.OrderId;
+                    order.PaymentStatus = payment.PaymentMethod;
+                    db.SaveChanges();
+                }
+
+                // Truncate the CartItems table
+                db.Database.ExecuteSqlRaw("TRUNCATE TABLE CartItems");
+            }
+
+            return result;
         }
 
 
