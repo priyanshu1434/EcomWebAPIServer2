@@ -13,8 +13,35 @@ namespace EcomWebAPIServer2.Repository
             this.db = db;
         }
 
+        static int UniqueNumberGenerate()
+        {
+            int timestamp = (int)(DateTime.UtcNow.Ticks % 1000000000);
+            int randomPart = new Random().Next(1000, 9999);
+            return timestamp + randomPart;
+        }
+
         public int AddPayment(Payment payment)
         {
+            payment.PaymentId = UniqueNumberGenerate();
+            var cartItems = (from cartItem in db.CartItems
+                             join product in db.Products on cartItem.ProductId equals product.ProductId
+                             where cartItem.UserId == payment.UserId
+                             select new
+                             {
+                                 CartItemId = cartItem.CartItemId,
+                                 UserId = cartItem.UserId,
+                                 ProductId = cartItem.ProductId,
+                                 Quantity = cartItem.Quantity,
+                                 ProductName = product.ProductName,
+                                 ProductPrice = product.ProductPrice,
+                                 ProductDes = product.ProductDescription,
+                                 ProductCate = product.ProductCategory
+                             }).ToList();
+
+            foreach (var cartItem in cartItems)
+            {
+                payment.Amount += cartItem.ProductPrice * cartItem.Quantity;
+            }
             db.Payments.Add(payment);
             return db.SaveChanges();
         }

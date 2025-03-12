@@ -20,10 +20,10 @@ namespace EcomWebAPIServer2.Models
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
         public string Password { get; set; }
 
-        public int PhoneNumber { get; set; }
+        public long PhoneNumber { get; set; }
 
 
-        public string ShippingAddress { get; set; }
+        public string Address { get; set; }
 
       //  public virtual ICollection<Order> Orders { get; set; }
 
