@@ -61,6 +61,7 @@ namespace EcomWebAPIServer2.Repository
                 {
                     payment.OrderId = order.OrderId;
                     order.PaymentStatus = payment.PaymentMethod;
+                    payment.Status = "Payment Completed";
                     db.SaveChanges();
                 }
 

@@ -12,5 +12,6 @@ namespace EcomWebAPIServer2.Repository
 
         object GetCartItemsByUserId(int userId); //read data of that user id
 
+
     }
 }

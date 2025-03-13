@@ -9,5 +9,7 @@ namespace EcomWebAPIServer2.Repository
         int AddPayment(Payment payment);//insert
         int UpdatePayment(int id, Payment payment);//update
         int DeletePayment(int id);//delete
+
+        object GetPaymentById(int id);
     }
 }

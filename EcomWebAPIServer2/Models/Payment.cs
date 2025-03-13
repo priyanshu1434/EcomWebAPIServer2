@@ -26,6 +26,8 @@ namespace EcomWebAPIServer2.Models
         [StringLength(100)]
         public string PaymentMethod { get; set; }
 
+        public string Status { get; set; }
+
         [Required]
         public DateTime PaymentDateTime { get; set; }
 

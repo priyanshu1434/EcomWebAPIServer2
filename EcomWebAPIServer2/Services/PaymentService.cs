@@ -54,5 +54,14 @@ namespace EcomWebAPIServer2.Services
             }
             return repo.UpdatePayment(id, payment);
         }
+
+        public object GetPaymentById(int id)
+        {
+            if (repo.GetPaymentById(id) == null)
+            {
+                throw new ProductNotFoundException($"Latest Payment with user id {id} does not exists");
+            }
+            return repo.GetPaymentById(id);
+        }
     }
 }

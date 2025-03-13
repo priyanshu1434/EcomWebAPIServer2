@@ -23,6 +23,7 @@ namespace EcomWebAPIServer2.Repository
         public int AddPayment(Payment payment)
         {
             payment.PaymentId = UniqueNumberGenerate();
+            payment.Status = "Pending payment - For Order Comfirmation";
             var cartItems = (from cartItem in db.CartItems
                              join product in db.Products on cartItem.ProductId equals product.ProductId
                              where cartItem.UserId == payment.UserId
@@ -74,6 +75,13 @@ namespace EcomWebAPIServer2.Repository
 
             db.Entry<Payment>(p).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             return db.SaveChanges();
+        }
+
+        public object GetPaymentById(int id)
+        {
+            var payments = db.Payments.Where(p => p.UserId == id).ToList();
+
+            return payments;
         }
     }
 }

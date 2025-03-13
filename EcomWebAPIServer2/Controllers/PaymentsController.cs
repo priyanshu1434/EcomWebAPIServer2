@@ -35,6 +35,13 @@ namespace EcomWebAPIServer2.Controllers
             return Ok(service.GetPayment(id));
         }
 
+        [HttpGet]
+        [Route("user-payments/{id}")]
+        public IActionResult GetPayment(int id)
+        {
+            return Ok(service.GetPaymentById(id));
+        }
+
         [HttpPost]
         public IActionResult Post(Payment payment)
         {
