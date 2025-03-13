@@ -40,6 +40,8 @@ namespace EcomWebAPIServer2.Repository
             c.Name = user.Name;
             c.Email = user.Email;
             c.Password = user.Password;
+            c.PhoneNumber = user.PhoneNumber;
+            c.Address = user.Address;
             db.Entry<User>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             return db.SaveChanges();
         }

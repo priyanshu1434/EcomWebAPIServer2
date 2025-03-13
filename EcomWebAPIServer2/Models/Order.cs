@@ -15,9 +15,8 @@ namespace EcomWebAPIServer2.Models
 
         public int UserId { get; set; }
 
-
         [Required]
-        public int ProductId { get; set; }
+        public string ProductDetailsJson { get; set; } // New property to store product details as JSON
 
 
         [Required]
@@ -34,7 +33,7 @@ namespace EcomWebAPIServer2.Models
 
         [MaxLength(50)]
 
-        public string OrderStatus { get; set; }
+        public string OrderStatus { get; set; } 
 
         [Required]
 

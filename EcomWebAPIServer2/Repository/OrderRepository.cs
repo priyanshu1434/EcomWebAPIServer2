@@ -1,6 +1,8 @@
 ﻿using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 namespace EcomWebAPIServer2.Repository
 {
     public class OrderRepository : IOrderRepository
@@ -23,30 +25,50 @@ namespace EcomWebAPIServer2.Repository
         public int AddOrder(Order order)
         {
             order.OrderId = UniqueNumberGenerate();
+            order.OrderStatus = "Successfully Placed";
 
             var cartItems = (from cartItem in db.CartItems
                              join product in db.Products on cartItem.ProductId equals product.ProductId
                              where cartItem.UserId == order.UserId
                              select new
                              {
-                                 CartItemId = cartItem.CartItemId,
-                                 UserId = cartItem.UserId,
                                  ProductId = cartItem.ProductId,
                                  Quantity = cartItem.Quantity,
-                                 ProductName = product.ProductName,
-                                 ProductPrice = product.ProductPrice,
-                                 ProductDes = product.ProductDescription,
-                                 ProductCate = product.ProductCategory
+                                 ProductPrice = product.ProductPrice
                              }).ToList();
 
-            foreach (var cartItem in cartItems) 
+            var productDetails = cartItems.Select(cartItem => new
+            {
+                cartItem.ProductId,
+                cartItem.Quantity
+            }).ToList();
+
+            order.ProductDetailsJson = JsonConvert.SerializeObject(productDetails);
+
+            foreach (var cartItem in cartItems)
             {
                 order.TotalPrice += cartItem.ProductPrice * cartItem.Quantity;
             }
 
-
             db.Orders.Add(order);
-            return db.SaveChanges();
+            int result = db.SaveChanges();
+
+            if (result > 0)
+            {
+                // Update the OrderId in the Payment table
+                var payment = db.Payments.FirstOrDefault(p => p.UserId == order.UserId && p.OrderId == 0);
+                if (payment != null)
+                {
+                    payment.OrderId = order.OrderId;
+                    order.PaymentStatus = payment.PaymentMethod;
+                    db.SaveChanges();
+                }
+
+                // Truncate the CartItems table
+                db.Database.ExecuteSqlRaw("TRUNCATE TABLE CartItems");
+            }
+
+            return result;
         }
 
 
@@ -84,34 +106,55 @@ namespace EcomWebAPIServer2.Repository
 
         public object GetOrdersByUserId(int userId)
         {
-
             var orders = (from order in db.Orders
-                             join product in db.Products on order.ProductId equals product.ProductId
-                             join user in db.Users on order.UserId equals user.UserId
-                             where order.UserId == userId
-                             select new
-                             {
-                                 OrderId = order.OrderId,
-                                 UserId = order.UserId,
-                                 ProductId = order.ProductId,
-                                 TotalPrice = order.TotalPrice,
-                                 ShippingAddress = order.ShippingAddress, 
-                                 OrderStatus = order.OrderStatus,
-                                 PaymentStatus = order.PaymentStatus,
-                                 DateTime = order.OrderDateTime,
-                                 ProductName = product.ProductName,
-                                 ProductPrice = product.ProductPrice,
-                                 ProductDes = product.ProductDescription,
-                                 ProductCate = product.ProductCategory,
-                                 UserName = user.Name,
-                                 email =  user.Email,
-                                 phone = user.PhoneNumber
-                              
+                          join user in db.Users on order.UserId equals user.UserId
+                          where order.UserId == userId
+                          select new
+                          {
+                              OrderId = order.OrderId,
+                              UserId = order.UserId,
+                              TotalPrice = order.TotalPrice,
+                              ShippingAddress = order.ShippingAddress,
+                              OrderStatus = order.OrderStatus,
+                              PaymentStatus = order.PaymentStatus,
+                              DateTime = order.OrderDateTime,
+                              ProductDetailsJson = order.ProductDetailsJson,
+                              UserName = user.Name,
+                              Email = user.Email,
+                              Phone = user.PhoneNumber
+                          }).ToList();
 
-                             }).ToList();
+            var result = orders.Select(order => new
+            {
+                order.OrderId,
+                order.UserId,
+                order.TotalPrice,
+                order.ShippingAddress,
+                order.OrderStatus,
+                order.PaymentStatus,
+                order.DateTime,
+                UserName = order.UserName,
+                Email = order.Email,
+                Phone = order.Phone,
+                Products = JsonConvert.DeserializeObject<List<ProductDetail>>(order.ProductDetailsJson)
+                                .Select(pd => new
+                                {
+                                    pd.ProductId,
+                                    pd.Quantity,
+                                    ProductName = db.Products.FirstOrDefault(p => p.ProductId == pd.ProductId).ProductName,
+                                    ProductPrice = db.Products.FirstOrDefault(p => p.ProductId == pd.ProductId).ProductPrice,
+                                    ProductDescription = db.Products.FirstOrDefault(p => p.ProductId == pd.ProductId).ProductDescription,
+                                    ProductCategory = db.Products.FirstOrDefault(p => p.ProductId == pd.ProductId).ProductCategory
+                                }).ToList()
+            }).ToList();
 
-            return orders;
+            return result;
+        }
 
+        public class ProductDetail
+        {
+            public int ProductId { get; set; }
+            public int Quantity { get; set; }
         }
     }
 }
