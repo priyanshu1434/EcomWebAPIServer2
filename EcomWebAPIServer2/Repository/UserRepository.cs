@@ -13,6 +13,7 @@ namespace EcomWebAPIServer2.Repository
 
         public int AddUser(User user)
         {
+            user.Role = "User";
             db.Users.Add(user);
             return db.SaveChanges();
         }
