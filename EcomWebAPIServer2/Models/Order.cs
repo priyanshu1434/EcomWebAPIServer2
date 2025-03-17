@@ -20,7 +20,7 @@ namespace EcomWebAPIServer2.Models
 
 
         [Required]
-
+        
         public double TotalPrice { get; set; }
 
         [Required]
@@ -33,7 +33,7 @@ namespace EcomWebAPIServer2.Models
 
         [MaxLength(50)]
 
-        public string OrderStatus { get; set; } 
+        public string OrderStatus { get; set; }
 
         [Required]
 

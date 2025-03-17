@@ -14,7 +14,8 @@ namespace EcomWebAPIServer2.Models
         public string ProductName { get; set; }
 
         public string ProductDescription { get; set; }
-
+        [Required]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Product Price must be greater than 0.")]
         public double ProductPrice { get; set; }
 
         public string ProductCategory { get; set; }
