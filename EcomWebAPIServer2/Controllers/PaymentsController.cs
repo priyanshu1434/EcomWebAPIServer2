@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Exception;
 using EcomWebAPIServer2.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EcomWebAPIServer2.Controllers
 {
@@ -23,6 +24,7 @@ namespace EcomWebAPIServer2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Get()
         {
             return Ok(service.GetPayments());
@@ -30,6 +32,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Get(int id)
         {
             return Ok(service.GetPayment(id));
@@ -37,12 +40,14 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpGet]
         [Route("user-payments/{id}")]
+        [Authorize(Roles = "Admin,User")]
         public IActionResult GetPayment(int id)
         {
             return Ok(service.GetPaymentById(id));
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Post(Payment payment)
         {
             return StatusCode(201, service.AddPayment(payment));
@@ -50,6 +55,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Put(int id, Payment payment)
         {
             return Ok(service.UpdatePayment(id, payment));
@@ -57,6 +63,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Delete(int id)
         {
             return Ok(service.DeletePayment(id));

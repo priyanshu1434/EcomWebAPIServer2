@@ -6,7 +6,7 @@ namespace EcomWebAPIServer2.Models
     public class User
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
 
 
@@ -20,8 +20,8 @@ namespace EcomWebAPIServer2.Models
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters long.")]
         public string Password { get; set; }
 
-        public long PhoneNumber { get; set; }
 
+        public long PhoneNumber { get; set; }
 
         public string Address { get; set; }
 

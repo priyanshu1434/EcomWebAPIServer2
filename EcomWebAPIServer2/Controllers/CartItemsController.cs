@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Services;
 using EcomWebAPIServer2.Exception;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EcomWebAPIServer2.Controllers
 {
@@ -24,6 +25,7 @@ namespace EcomWebAPIServer2.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "User")]
         public IActionResult Get()
         {
             return Ok(service.GetCartItems());
@@ -31,6 +33,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpGet]
         [Route("user-cart/{id}")]
+        [Authorize(Roles = "User")]
         public IActionResult GetCart(int id)
         {
             return Ok(service.GetCartItemsByUserId(id));
@@ -38,12 +41,14 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [Authorize(Roles = "User")]
         public IActionResult Get(int id)
         {
             return Ok(service.GetCartItem(id));
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         public IActionResult Post(CartItem product)
         {
             return StatusCode(201, service.AddCartItem(product));
@@ -51,6 +56,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPut]
         [Route("{id}")]
+        [Authorize(Roles = "User")]
         public IActionResult Put(int id, CartItem product)
         {
             return Ok(service.UpdateCartItem(id, product));
@@ -58,6 +64,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [Authorize(Roles = "User")]
         public IActionResult Delete(int id)
         {
             return Ok(service.DeleteCartItem(id));

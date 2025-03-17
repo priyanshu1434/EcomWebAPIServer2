@@ -1,6 +1,7 @@
 ﻿using EcomWebAPIServer2.Exception;
 using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EcomWebAPIServer2.Controllers
@@ -18,6 +19,8 @@ namespace EcomWebAPIServer2.Controllers
             }
 
             [HttpGet]
+            [Authorize(Roles = "Admin,User")]
+            
             public IActionResult Get()
             {
                 return Ok(service.GetOrders());
@@ -25,6 +28,7 @@ namespace EcomWebAPIServer2.Controllers
 
             [HttpGet]
             [Route("{id}")]
+            [Authorize(Roles = "Admin,User")]
             public IActionResult Get(int id)
             {
                 return Ok(service.GetOrder(id));
@@ -32,12 +36,14 @@ namespace EcomWebAPIServer2.Controllers
 
             [HttpGet]
             [Route("user-order/{id}")]
+            [Authorize(Roles = "Admin,User")]
             public IActionResult Getorder(int id)
             {
                 return Ok(service.GetOrdersByUserId(id));
             }
 
-        [HttpPost]
+            [HttpPost]
+            [Authorize(Roles = "Admin,User")]
             public IActionResult Post(Order order)
             {
                 return StatusCode(201, service.AddOrder(order));
@@ -45,6 +51,7 @@ namespace EcomWebAPIServer2.Controllers
 
             [HttpPut]
             [Route("{id}")]
+            [Authorize(Roles = "Admin,User")]
             public IActionResult Put(int id, Order order)
             {
                 return Ok(service.UpdateOrder(id, order));
@@ -52,6 +59,7 @@ namespace EcomWebAPIServer2.Controllers
 
             [HttpDelete]
             [Route("{id}")]
+            [Authorize(Roles = "Admin,User")]
             public IActionResult Delete(int id)
             {
                 return Ok(service.DeleteOrder(id));
