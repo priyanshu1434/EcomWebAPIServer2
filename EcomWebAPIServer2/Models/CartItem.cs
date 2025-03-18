@@ -1,5 +1,6 @@
 ﻿    using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace EcomWebAPIServer2.Models
 {
@@ -20,6 +21,7 @@ namespace EcomWebAPIServer2.Models
         // [ForeignKey("UserId")]
         //public virtual User User { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "Quantity must be greater than 0.")]
+        [DefaultValue(1)]
         public int Quantity { get; set; }
 
         // public Product Product { get; set; }
