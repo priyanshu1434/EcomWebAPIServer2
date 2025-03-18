@@ -48,9 +48,14 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin,User")]
-        public IActionResult Post(Payment payment)
+        public IActionResult Post(int userid,string paymentmethod)
         {
-            return StatusCode(201, service.AddPayment(payment));
+            var kk = new Payment 
+            {
+                UserId=userid,
+                PaymentMethod=paymentmethod
+            };
+            return StatusCode(201, service.AddPayment(kk));
         }
 
         [HttpPut]

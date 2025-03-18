@@ -23,7 +23,7 @@ namespace EcomWebAPIServer2.Services
 
         public string Authentication(string username, string password)
         {
-            var user = _context.Users.SingleOrDefault(u => u.Name == username && u.Password == password);
+            var user = _context.Users.FirstOrDefault(u => u.Name == username && u.Password == password);
             if (user == null)
             {
                 return null;
