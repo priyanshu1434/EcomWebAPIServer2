@@ -71,7 +71,6 @@ builder.Services.AddAuthentication(x =>
 
 // Register Auth as a scoped service
 builder.Services.AddScoped<IAutho>(provider => new Auth(key, provider.GetRequiredService<EcomContext>()));
-
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();

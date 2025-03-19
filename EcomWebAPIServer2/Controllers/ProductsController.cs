@@ -9,6 +9,7 @@ using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Exception;
 using EcomWebAPIServer2.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.CodeAnalysis;
 
 namespace EcomWebAPIServer2.Controllers
 {
@@ -42,9 +43,18 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public IActionResult Post(Product product)
+        public IActionResult Post(int productid, string productname, string productdescription, double productprice, string productcategory, string productImgurl)
         {
-            return StatusCode(201, service.AddProduct(product));
+            var qq = new Product
+            {
+                ProductId = productid,
+                ProductName = productname,
+                ProductDescription = productdescription,
+                ProductPrice = productprice,
+                ProductCategory = productcategory,
+                ProductImgURL = productImgurl
+            };
+            return StatusCode(201, service.AddProduct(qq));
         }
 
         [HttpPut]

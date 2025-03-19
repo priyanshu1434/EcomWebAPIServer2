@@ -1,9 +1,11 @@
-﻿using EcomWebAPIServer2.Models;
+﻿using System.Diagnostics;
+using EcomWebAPIServer2.Models;
 
 namespace EcomWebAPIServer2.Repository
 {
     public class ProductRepository : IProductRepository
     {
+
         private readonly EcomContext db;
 
         public ProductRepository(EcomContext db)

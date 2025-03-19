@@ -11,9 +11,7 @@ namespace EcomWebAPIServer2.Models
 
         [Required]
         public int UserId { get; set; }
-        // [ForeignKey("UserId")]
-        // public virtual User User { get; set; }
-
+        
 
         public int OrderId { get; set; }
 
@@ -33,7 +31,6 @@ namespace EcomWebAPIServer2.Models
         public DateTime PaymentDateTime { get; set; }
 
 
-        //     public virtual ICollection<Order> Orders { get; set; }
-
+     
     }
 }
