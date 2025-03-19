@@ -10,8 +10,7 @@ namespace EcomWebAPIServer2.Repository
         {
             this.db = db;
         }
-        public int AddProduct(Product product)
-        {
+        public int AddProduct(Product product) { 
             db.Products.Add(product);
             return db.SaveChanges();
         }
