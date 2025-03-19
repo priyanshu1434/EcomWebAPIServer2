@@ -11,19 +11,18 @@ namespace EcomWebAPIServer2.Models
 
         [Required]
         public int UserId { get; set; }
-        // [ForeignKey("UserId")]
-        // public virtual User User { get; set; }
+        
 
-       
         public int OrderId { get; set; }
 
 
         [Required]
-        [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than zero.")]
+        
         public double Amount { get; set; }
 
         [Required]
         [StringLength(100)]
+
         public string PaymentMethod { get; set; }
 
         public string Status { get; set; }
@@ -32,7 +31,6 @@ namespace EcomWebAPIServer2.Models
         public DateTime PaymentDateTime { get; set; }
 
 
-   //     public virtual ICollection<Order> Orders { get; set; }
-
+     
     }
 }

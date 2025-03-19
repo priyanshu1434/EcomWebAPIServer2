@@ -44,9 +44,14 @@ namespace EcomWebAPIServer2.Controllers
 
             [HttpPost]
             [Authorize(Roles = "Admin,User")]
-            public IActionResult Post(Order order)
+            public IActionResult Post(int userid, string shippingaddress)
             {
-                return StatusCode(201, service.AddOrder(order));
+            var qq = new Order
+            {
+                UserId = userid,
+                ShippingAddress = shippingaddress
+            };
+            return StatusCode(201, service.AddOrder(qq));
             }
 
             [HttpPut]

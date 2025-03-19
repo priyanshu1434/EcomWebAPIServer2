@@ -49,9 +49,16 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPost]
         [Authorize(Roles = "User")]
-        public IActionResult Post(CartItem product)
+        public IActionResult Post(int productid, int userid, int quantity)
+
         {
-            return StatusCode(201, service.AddCartItem(product));
+            var p = new CartItem
+            {
+                ProductId = productid,
+                UserId = userid,
+                Quantity = quantity
+            };
+            return StatusCode(201, service.AddCartItem(p));
         }
 
         [HttpPut]
