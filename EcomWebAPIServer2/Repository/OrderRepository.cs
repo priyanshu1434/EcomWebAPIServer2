@@ -49,7 +49,7 @@ namespace EcomWebAPIServer2.Repository
             {
                 order.TotalPrice += cartItem.ProductPrice * cartItem.Quantity;
             }
-
+            order.OrderDateTime = DateTime.Now;
             db.Orders.Add(order);
             int result = db.SaveChanges();
 

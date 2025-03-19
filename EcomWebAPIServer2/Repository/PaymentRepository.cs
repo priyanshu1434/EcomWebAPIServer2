@@ -43,6 +43,7 @@ namespace EcomWebAPIServer2.Repository
             {
                 payment.Amount += cartItem.ProductPrice * cartItem.Quantity;
             }
+            payment.PaymentDateTime = DateTime.Now;
             db.Payments.Add(payment);
             return db.SaveChanges();
         }
