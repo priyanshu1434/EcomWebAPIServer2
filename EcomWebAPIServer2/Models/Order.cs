@@ -35,10 +35,6 @@ namespace EcomWebAPIServer2.Models
 
         public string OrderStatus { get; set; }
 
-        [Required]
-
-        [MaxLength(50)]
-
         public string PaymentStatus { get; set; }
 
         [Required]
