@@ -50,6 +50,7 @@ namespace EcomWebAPIServer2.Repository
                 order.TotalPrice += cartItem.ProductPrice * cartItem.Quantity;
             }
             order.OrderDateTime = DateTime.Now;
+            order.PaymentStatus = "Pending";
             db.Orders.Add(order);
             int result = db.SaveChanges();
 
@@ -60,7 +61,6 @@ namespace EcomWebAPIServer2.Repository
                 if (payment != null)
                 {
                     payment.OrderId = order.OrderId;
-                    order.PaymentStatus = payment.PaymentMethod;
                     payment.Status = "Payment Completed";
                     db.SaveChanges();
                 }
