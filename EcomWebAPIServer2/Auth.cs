@@ -21,9 +21,9 @@ namespace EcomWebAPIServer2.Services
             _context = context;
         }
 
-        public string Authentication(string username, string password)
+        public string Authentication(string email, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Name == username && u.Password == password);
+            var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user == null)
             {
                 return null;
@@ -40,7 +40,7 @@ namespace EcomWebAPIServer2.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, username),
+                    new Claim(ClaimTypes.Email, email),
                     new Claim(ClaimTypes.Role, user.Role)
 
                 }),

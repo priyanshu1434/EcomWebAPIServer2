@@ -27,6 +27,8 @@ namespace EcomWebAPIServer2.Models
 
         public string Address { get; set; }
 
+        [Required]
+        [RegularExpression(@"^(user|seller)$", ErrorMessage = "Role must be either 'user' or 'seller'.")]
         public string Role { get; set; }
 
         //  public virtual ICollection<Order> Orders { get; set; }

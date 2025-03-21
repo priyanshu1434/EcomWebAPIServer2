@@ -46,6 +46,23 @@ namespace EcomWebAPIServer2.Controllers
         {
             return StatusCode(201, service.AddUser(user));
         }
+        //public IActionResult Post(int Userid, string Name, string Email, string Password, long Phonenumber, string Address, string Role)
+        //{
+        //    var user = new User
+        //    {
+        //        UserId = Userid,
+
+        //        Name = Name,
+        //        Email = Email,
+        //        Password = Password,
+        //        PhoneNumber = Phonenumber,
+
+        //        Address = Address,
+        //        Role = Role,
+
+        //    };
+        //    return StatusCode(201, service.AddUser(user));
+        //}
 
         [HttpPut]
         [Route("{id}")]
@@ -63,21 +80,17 @@ namespace EcomWebAPIServer2.Controllers
             return Ok(service.DeleteUser(id));
         }
 
-       
+
 
         [AllowAnonymous]
+        // POST api/<UsersController>/authentication
         [HttpPost("authentication")]
-        public IActionResult Authentication([FromBody] UserCredentials user)
+        public IActionResult Authentication(string email, string password)
         {
-            var token = jwtAuth.Authentication(user.Name, user.Password);
+            var token = jwtAuth.Authentication(email, password);
             if (token == null)
                 return Unauthorized();
             return Ok(new { Token = token });
-        }
-        public class UserCredentials
-        {
-            public string Name { get; set; }
-            public string Password { get; set; }
         }
     }
 }
