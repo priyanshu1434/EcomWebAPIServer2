@@ -2,7 +2,7 @@
 {
     public interface IAutho
     {
-        string Authentication(string email, string password);
+        (string Token, int UserId)? Authentication(string email, string password);
 
     }
 }

@@ -42,33 +42,48 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Post(User user)
-        {
-            return StatusCode(201, service.AddUser(user));
-        }
-        //public IActionResult Post(int Userid, string Name, string Email, string Password, long Phonenumber, string Address, string Role)
+        //public IActionResult Post(User user)
         //{
-        //    var user = new User
-        //    {
-        //        UserId = Userid,
-
-        //        Name = Name,
-        //        Email = Email,
-        //        Password = Password,
-        //        PhoneNumber = Phonenumber,
-
-        //        Address = Address,
-        //        Role = Role,
-
-        //    };
         //    return StatusCode(201, service.AddUser(user));
         //}
+        public IActionResult Post( string Name, string Email, string Password, long Phonenumber, string Address)
+        {
+            var user = new User
+            {
+                
+
+                Name = Name,
+                Email = Email,
+                Password = Password,
+                PhoneNumber = Phonenumber,
+
+                Address = Address,
+               
+                
+
+            };
+            return StatusCode(201, service.AddUser(user));
+        }
 
         [HttpPut]
         [Route("{id}")]
         [Authorize(Roles = "User")]
-        public IActionResult Put(int id, User user)
+        public IActionResult Put(int id, string Name, string Email, string Password, long Phonenumber, string Address)
         {
+            var user = new User
+            {
+
+
+                Name = Name,
+                Email = Email,
+                Password = Password,
+                PhoneNumber = Phonenumber,
+
+                Address = Address,
+
+
+
+            };
             return Ok(service.UpdateUser(id, user));
         }
 
@@ -87,10 +102,11 @@ namespace EcomWebAPIServer2.Controllers
         [HttpPost("authentication")]
         public IActionResult Authentication(string email, string password)
         {
-            var token = jwtAuth.Authentication(email, password);
-            if (token == null)
+            var result = jwtAuth.Authentication(email, password);
+            if (result == null)
                 return Unauthorized();
-            return Ok(new { Token = token });
+
+            return Ok(new { Token = result.Value.Token, UserId = result.Value.UserId });
         }
     }
 }

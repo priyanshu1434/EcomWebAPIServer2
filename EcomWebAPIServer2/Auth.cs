@@ -5,8 +5,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using EcomWebAPIServer2.Models;
-using global::EcomWebAPIServer2.Models;
-
 
 namespace EcomWebAPIServer2.Services
 {
@@ -21,12 +19,12 @@ namespace EcomWebAPIServer2.Services
             _context = context;
         }
 
-        public string Authentication(string email, string password)
+        public (string Token, int UserId)? Authentication(string email, string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user == null)
             {
-                return null;
+                return (null, 0);
             }
 
             // 1. Create Security Token Handler
@@ -42,7 +40,6 @@ namespace EcomWebAPIServer2.Services
                 {
                     new Claim(ClaimTypes.Email, email),
                     new Claim(ClaimTypes.Role, user.Role)
-
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(
@@ -52,8 +49,8 @@ namespace EcomWebAPIServer2.Services
             // 4. Create Token
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            // 5. Return Token from method
-            return tokenHandler.WriteToken(token);
+            // 5. Return Token and UserId from method
+            return (tokenHandler.WriteToken(token), user.UserId);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace EcomWebAPIServer2.Models
     public class User
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
 
 
@@ -27,8 +27,7 @@ namespace EcomWebAPIServer2.Models
 
         public string Address { get; set; }
 
-        [Required]
-        [RegularExpression(@"^(user|seller)$", ErrorMessage = "Role must be either 'user' or 'seller'.")]
+        
         public string Role { get; set; }
 
         //  public virtual ICollection<Order> Orders { get; set; }
