@@ -6,34 +6,40 @@ namespace EcomWebAPIServer2.Services
 {
     public class PaymentService : IPaymentService
     {
-        private readonly IPaymentRepository repo;
+        private readonly IPaymentRepository paymentRepo;
+        private readonly IUserRepository userRepo;
 
-        public PaymentService(IPaymentRepository repo)
+        public PaymentService(IPaymentRepository paymentRepo, IUserRepository userRepo)
         {
-            this.repo = repo;
+            this.paymentRepo = paymentRepo;
+            this.userRepo = userRepo;
         }
 
         public int AddPayment(Payment payment)
         {
-            if (repo.GetPayment(payment.PaymentId) != null)
+            if (userRepo.GetUser(payment.UserId) == null)
+            {
+                throw new UserNotFoundException($"User with ID {payment.UserId} does not exist");
+            }
+            if (paymentRepo.GetPayment(payment.PaymentId) != null)
             {
                 throw new PaymentAlreadyExistsException($"Payment with payment id {payment.PaymentId} already exists");
             }
-            return repo.AddPayment(payment);
+            return paymentRepo.AddPayment(payment);
         }
 
         public int DeletePayment(int id)
         {
-            if (repo.GetPayment(id) == null)
+            if (paymentRepo.GetPayment(id) == null)
             {
                 throw new PaymentNotFoundException($"Payment with payment id {id} does not exist");
             }
-            return repo.DeletePayment(id);
+            return paymentRepo.DeletePayment(id);
         }
 
         public Payment GetPayment(int id)
         {
-            Payment payment = repo.GetPayment(id);
+            Payment payment = paymentRepo.GetPayment(id);
             if (payment == null)
             {
                 throw new PaymentNotFoundException($"Payment with payment id {id} does not exist");
@@ -43,25 +49,25 @@ namespace EcomWebAPIServer2.Services
 
         public List<Payment> GetPayments()
         {
-            return repo.GetPayments();
+            return paymentRepo.GetPayments();
         }
 
         public int UpdatePayment(int id, Payment payment)
         {
-            if (repo.GetPayment(id) == null)
+            if (paymentRepo.GetPayment(id) == null)
             {
                 throw new PaymentNotFoundException($"Payment with payment id {id} does not exist");
             }
-            return repo.UpdatePayment(id, payment);
+            return paymentRepo.UpdatePayment(id, payment);
         }
 
         public object GetPaymentById(int id)
         {
-            if (repo.GetPaymentById(id) == null)
+            if (paymentRepo.GetPaymentById(id) == null)
             {
                 throw new ProductNotFoundException($"Latest Payment with user id {id} does not exists");
             }
-            return repo.GetPaymentById(id);
+            return paymentRepo.GetPaymentById(id);
         }
     }
 }

@@ -104,7 +104,10 @@ namespace EcomWebAPIServer2.Controllers
         {
             var result = jwtAuth.Authentication(email, password);
             if (result == null)
+            { 
                 return Unauthorized();
+            }
+               
 
             return Ok(new { Token = result.Value.Token, UserId = result.Value.UserId });
         }

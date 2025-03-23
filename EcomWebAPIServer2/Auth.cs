@@ -11,17 +11,17 @@ namespace EcomWebAPIServer2.Services
     public class Auth : IAutho
     {
         private readonly string key;
-        private readonly EcomContext _context;
+        private readonly EcomContext context;
 
         public Auth(string key, EcomContext context)
         {
             this.key = key;
-            _context = context;
+            this.context = context;
         }
 
         public (string Token, int UserId)? Authentication(string email, string password)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            var user = context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
             if (user == null)
             {
                 return (null, 0);
