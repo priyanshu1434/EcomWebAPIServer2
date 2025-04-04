@@ -16,6 +16,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyCorsPolicy", builder => builder
+        .WithOrigins("http://localhost:5173")
+        .AllowAnyMethod()
+        .AllowCredentials()
+        .WithHeaders("Accept", "Content-Type", "Origin", "X-My-Header"));
+});
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "EcomWebAPIServer2", Version = "v1" });
@@ -81,8 +90,8 @@ builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
-builder.Services.AddScoped<ICartItemRepository,CartItemRepository>();
-builder.Services.AddScoped<ICartItemService,CartItemService>();
+builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
+builder.Services.AddScoped<ICartItemService, CartItemService>();
 
 
 builder.Services.AddScoped<ExceptionHandlerAttribute>();
@@ -104,6 +113,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
+app.UseCors("MyCorsPolicy");
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
