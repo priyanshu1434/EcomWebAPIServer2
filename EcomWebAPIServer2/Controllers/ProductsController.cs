@@ -45,16 +45,16 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPost]
         //[Authorize(Roles = "User")]
-        public IActionResult Post(int productid, string productname, string productdescription, double productprice, string productcategory, string productImgurl)
+        public IActionResult Post(int productId, string productName, string productDescription, double productPrice, string productCategory, string productImgURL)
         {
             var qq = new Product
             {
-                ProductId = productid,
-                ProductName = productname,
-                ProductDescription = productdescription,
-                ProductPrice = productprice,
-                ProductCategory = productcategory,
-                ProductImgURL = productImgurl
+                ProductId = productId,
+                ProductName = productName,
+                ProductDescription = productDescription,
+                ProductPrice = productPrice,
+                ProductCategory = productCategory,
+                ProductImgURL = productImgURL
             };
             return StatusCode(201, service.AddProduct(qq));
         }

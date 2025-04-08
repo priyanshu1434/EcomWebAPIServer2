@@ -10,7 +10,7 @@ namespace EcomWebAPIServer2.Repository
         int UpdateProduct(int id, Product product);//update
         int DeleteProduct(int id);//delete
 
-        // Filters
+
 
         Product GetProductByName(string productName);
     }
