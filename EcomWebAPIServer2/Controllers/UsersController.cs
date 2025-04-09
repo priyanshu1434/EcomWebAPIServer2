@@ -25,7 +25,7 @@ namespace EcomWebAPIServer2.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User")]
+        //[Authorize(Roles = "User")]
         public IActionResult Get()
         {
             var users = service.GetUsers();
@@ -34,7 +34,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        [Authorize(Roles = "Admin,User")]
+        //[Authorize(Roles = "Admin,User")]
         public IActionResult Get(int id)
         {
             return Ok(service.GetUser(id));
@@ -56,7 +56,6 @@ namespace EcomWebAPIServer2.Controllers
                 Email = Email,
                 Password = Password,
                 PhoneNumber = Phonenumber,
-
                 Address = Address,
                
                 
@@ -67,7 +66,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Roles = "User")]
+        //[Authorize(Roles = "User")]
         public IActionResult Put(int id, string Name, string Email, string Password, long Phonenumber, string Address)
         {
             var user = new User
@@ -89,7 +88,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        [Authorize(Roles = "Admin,User")]
+        //[Authorize(Roles = "Admin,User")]
         public IActionResult Delete(int id)
         {
             return Ok(service.DeleteUser(id));
