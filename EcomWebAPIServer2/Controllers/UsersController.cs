@@ -40,17 +40,7 @@ namespace EcomWebAPIServer2.Controllers
             return Ok(service.GetUser(id));
         }
 
-        [HttpGet("email/{email}")]
-        //[Authorize(Roles = "Admin,User")]
-        public async Task<IActionResult> GetUserByEmail(string email)
-        {
-            var user = await service.GetUserByEmailAsync(email);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return Ok(user);
-        }
+       
 
         [HttpPost]
         //[AllowAnonymous]
