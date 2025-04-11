@@ -43,7 +43,7 @@ namespace EcomWebAPIServer2.Controllers
        
 
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult Post(string Name, string Email, string Password, long Phonenumber, string Address)
         {
             var user = new User
