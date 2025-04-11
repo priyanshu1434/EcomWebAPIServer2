@@ -26,7 +26,7 @@ namespace EcomWebAPIServer2.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "User")]
+       
         public IActionResult Get()
         {
             var products = service.GetProducts();
@@ -35,14 +35,14 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        [Authorize(Roles = "User")]
+       
         public IActionResult Get(int id)
         {
             return Ok(service.GetProduct(id));
         }
 
         [HttpPost]
-        [Authorize(Roles = "User")]
+        
         public IActionResult Post(int productid, string productname, string productdescription, double productprice, string productcategory, string productImgurl)
         {
             var qq = new Product
@@ -59,7 +59,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Roles = "User")]
+       
         public IActionResult Put(int id, Product product)
         {
             return Ok(service.UpdateProduct(id, product));
@@ -67,7 +67,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        [Authorize(Roles = "User")]
+       
         public IActionResult Delete(int id)
         {
             return Ok(service.DeleteProduct(id));

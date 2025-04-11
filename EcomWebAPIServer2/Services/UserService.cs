@@ -1,6 +1,9 @@
 ﻿using EcomWebAPIServer2.Exception;
 using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Repository;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EcomWebAPIServer2.Services
 {
@@ -68,6 +71,13 @@ namespace EcomWebAPIServer2.Services
             }
 
             return repo.UpdateUser(id, user);
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            // Convert List<User> to IQueryable<User> to use FirstOrDefaultAsync
+            var users = repo.GetUsers().AsQueryable();
+            return await users.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

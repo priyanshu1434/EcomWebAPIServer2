@@ -1,30 +1,29 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using EcomWebAPIServer2.Models;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using EcomWebAPIServer2.Models;
 
-namespace EcomWebAPIServer2.Services
+namespace EcomWebAPIServer2
 {
-    public class Auth : IAutho
+    public class Auth : IAuth
     {
         private readonly string key;
-        private readonly EcomContext context;
+        private readonly EcomContext _context;
 
         public Auth(string key, EcomContext context)
         {
             this.key = key;
-            this.context = context;
+            _context = context;
         }
 
-        public (string Token, int UserId)? Authentication(string email, string password)
+        public AuthResult Authentication(string username, string password)
         {
-            var user = context.Users.FirstOrDefault(u => u.Email == email && u.Password == password);
+            var user = _context.Users.SingleOrDefault(u => u.Email == username && u.Password == password);
+
             if (user == null)
             {
-                return (null, 0);
+                return null;
             }
 
             // 1. Create Security Token Handler
@@ -38,7 +37,7 @@ namespace EcomWebAPIServer2.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Email, email),
+                    new Claim(ClaimTypes.Name, username),
                     new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
@@ -50,7 +49,17 @@ namespace EcomWebAPIServer2.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             // 5. Return Token and UserId from method
-            return (tokenHandler.WriteToken(token), user.UserId);
+            return new AuthResult
+            {
+                Token = tokenHandler.WriteToken(token),
+                UserId = user.UserId
+            };
         }
+    }
+
+    public class AuthResult
+    {
+        public string Token { get; set; }
+        public int UserId { get; set; }
     }
 }
