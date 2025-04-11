@@ -11,8 +11,16 @@ namespace EcomWebAPIServer2.Repository
             this.db = db;
         }
 
+        static int UniqueNumberGenerate()
+        {
+            int timestamp = (int)(DateTime.UtcNow.Ticks % 1000000000);
+            int randomPart = new Random().Next(1000, 9999);
+            return timestamp + randomPart;
+        }
+
         public int AddUser(User user)
         {
+            user.UserId = UniqueNumberGenerate();
             user.Role = "User";
             db.Users.Add(user);
             return db.SaveChanges();

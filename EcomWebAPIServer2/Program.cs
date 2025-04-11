@@ -139,6 +139,7 @@ else
 app.UseHttpsRedirection();
 app.UseCors("MyCorsPolicy");
 app.UseAuthentication();
+app.UseCors("MyCorsPolicy");
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

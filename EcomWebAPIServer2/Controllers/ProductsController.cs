@@ -10,11 +10,13 @@ using EcomWebAPIServer2.Exception;
 using EcomWebAPIServer2.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.CodeAnalysis;
+using Microsoft.AspNetCore.Cors;
 
 namespace EcomWebAPIServer2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCorsPolicy")]
     [ExceptionHandler]
     public class ProductController : ControllerBase
     {
@@ -47,12 +49,12 @@ namespace EcomWebAPIServer2.Controllers
         {
             var qq = new Product
             {
-                ProductId = productid,
-                ProductName = productname,
-                ProductDescription = productdescription,
-                ProductPrice = productprice,
-                ProductCategory = productcategory,
-                ProductImgURL = productImgurl
+                ProductId = productId,
+                ProductName = productName,
+                ProductDescription = productDescription,
+                ProductPrice = productPrice,
+                ProductCategory = productCategory,
+                ProductImgURL = productImgURL
             };
             return StatusCode(201, service.AddProduct(qq));
         }
