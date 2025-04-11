@@ -8,20 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Services;
 using System.IO;
+using Microsoft.AspNetCore.Cors;
 
 namespace EcomWebAPIServer2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCorsPolicy")]
     public class UsersController : ControllerBase
     {
         private readonly IUserService service;
-        private readonly IAutho jwtAuth;
 
-        public UsersController(IUserService service, IAutho jwtAuth)
+        public UsersController(IUserService service)
         {
             this.service = service;
-            this.jwtAuth = jwtAuth;
         }
 
         [HttpGet]
@@ -40,26 +40,29 @@ namespace EcomWebAPIServer2.Controllers
             return Ok(service.GetUser(id));
         }
 
+        [HttpGet("email/{email}")]
+        //[Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var user = await service.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
         [HttpPost]
-        [AllowAnonymous]
-        //public IActionResult Post(User user)
-        //{
-        //    return StatusCode(201, service.AddUser(user));
-        //}
-        public IActionResult Post( string Name, string Email, string Password, long Phonenumber, string Address)
+        //[AllowAnonymous]
+        public IActionResult Post(string Name, string Email, string Password, long Phonenumber, string Address)
         {
             var user = new User
             {
-                
-
                 Name = Name,
                 Email = Email,
                 Password = Password,
                 PhoneNumber = Phonenumber,
                 Address = Address,
-               
-                
-
             };
             return StatusCode(201, service.AddUser(user));
         }
@@ -71,17 +74,11 @@ namespace EcomWebAPIServer2.Controllers
         {
             var user = new User
             {
-
-
                 Name = Name,
                 Email = Email,
                 Password = Password,
                 PhoneNumber = Phonenumber,
-
                 Address = Address,
-
-
-
             };
             return Ok(service.UpdateUser(id, user));
         }
@@ -92,23 +89,6 @@ namespace EcomWebAPIServer2.Controllers
         public IActionResult Delete(int id)
         {
             return Ok(service.DeleteUser(id));
-        }
-
-
-
-        [AllowAnonymous]
-        // POST api/<UsersController>/authentication
-        [HttpPost("authentication")]
-        public IActionResult Authentication(string email, string password)
-        {
-            var result = jwtAuth.Authentication(email, password);
-            if (result == null)
-            { 
-                return Unauthorized();
-            }
-               
-
-            return Ok(new { Token = result.Value.Token, UserId = result.Value.UserId });
         }
     }
 }

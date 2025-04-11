@@ -27,16 +27,10 @@ namespace EcomWebAPIServer2.Models
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
         public long PhoneNumber { get; set; }
 
-
         public string Address { get; set; }
-
         
         public string Role { get; set; }
 
-        //  public virtual ICollection<Order> Orders { get; set; }
-
-        //  public virtual ICollection<CartItem> CartItems { get; set; }
-
-        //  public virtual ICollection<Payment> Payments { get; set; }
+        
     }
 }

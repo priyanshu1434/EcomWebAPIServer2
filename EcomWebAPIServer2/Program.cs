@@ -16,14 +16,40 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("MyCorsPolicy", builder => builder
+//        .WithOrigins("http://localhost:3000")
+//        .AllowAnyMethod()
+//        .AllowAnyHeader()
+//        .AllowCredentials()
+//        .WithHeaders("Accept", "Content-Type", "Origin", "X-My-Header"));
+//});
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyCorsPolicy", builder => builder
-        .WithOrigins("http://localhost:5173")
+        .WithOrigins("http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:3003", "http://localhost:3004", "http://localhost:3005", "http://localhost:5173")
         .AllowAnyMethod()
-        .AllowCredentials()
-        .WithHeaders("Accept", "Content-Type", "Origin", "X-My-Header"));
+        .AllowAnyHeader() 
+        .AllowCredentials());
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -78,23 +104,22 @@ builder.Services.AddAuthentication(x =>
     };
 });
 
-// Register Auth as a scoped service
-builder.Services.AddScoped<IAutho>(provider => new Auth(key, provider.GetRequiredService<EcomContext>()));
+//Register Auth as a scoped service
+builder.Services.AddScoped<IAuth>(provider => new Auth(key, provider.GetRequiredService<EcomContext>()));
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAdminRepository, AdminRepository>();
-builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
-builder.Services.AddScoped<ICartItemRepository, CartItemRepository>();
-builder.Services.AddScoped<ICartItemService, CartItemService>();
+//builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+//builder.Services.AddScoped<IAdminService, AdminService>();
+//builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+//builder.Services.AddScoped<IPaymentService, PaymentService>();
+//builder.Services.AddScoped<ICartItemRepository,CartItemRepository>();
+//builder.Services.AddScoped<ICartItemService,CartItemService>();
+//builder.Services.AddScoped<ExceptionHandlerAttribute>();
 
-
-builder.Services.AddScoped<ExceptionHandlerAttribute>();
 
 var app = builder.Build();
 
@@ -112,6 +137,7 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseCors("MyCorsPolicy");
 app.UseAuthentication();
 app.UseCors("MyCorsPolicy");
 app.UseAuthorization();
