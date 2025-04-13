@@ -23,7 +23,6 @@ namespace EcomWebAPIServer2.Models
         ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
         public string Password { get; set; }
 
-        [Required]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
         public long PhoneNumber { get; set; }
 
