@@ -40,9 +40,10 @@ namespace EcomWebAPIServer2.Controllers
             return Ok(service.GetUser(id));
         }
 
+       
 
         [HttpPost]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public IActionResult Post(string Name, string Email, string Password, long Phonenumber, string Address)
         {
             var user = new User
