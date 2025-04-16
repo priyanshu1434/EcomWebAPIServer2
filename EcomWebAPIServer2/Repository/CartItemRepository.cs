@@ -71,7 +71,8 @@ namespace EcomWebAPIServer2.Repository
                                  ProductName = product.ProductName,
                                  ProductPrice = product.ProductPrice,
                                  ProductDes = product.ProductDescription,
-                                 ProductCate = product.ProductCategory
+                                 ProductCate = product.ProductCategory,
+                                 ProductImg = product.ProductImgURL
                              }).ToList();
 
             return cartItems;
