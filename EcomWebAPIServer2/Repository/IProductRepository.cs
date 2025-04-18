@@ -13,5 +13,7 @@ namespace EcomWebAPIServer2.Repository
 
 
         Product GetProductByName(string productName);
+
+        Task<List<Product>> SearchProductsAsync(string query); // Search products by name 
     }
 }

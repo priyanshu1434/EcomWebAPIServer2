@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using EcomWebAPIServer2.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EcomWebAPIServer2.Repository
 {
@@ -54,5 +55,18 @@ namespace EcomWebAPIServer2.Repository
             db.Entry<Product>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             return db.SaveChanges();
         }
+
+        public async Task<List<Product>> SearchProductsAsync(string query)
+
+        {
+
+            return await db.Products
+
+                .Where(p => p.ProductName.Contains(query))
+
+                .ToListAsync();
+
+        }
+
     }
 }

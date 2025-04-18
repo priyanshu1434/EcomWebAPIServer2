@@ -67,5 +67,10 @@ namespace EcomWebAPIServer2.Services
         }
 
 
+        public async Task<List<Product>> SearchProductsAsync(string query)
+        {
+            return await repo.SearchProductsAsync(query);
+        }
+
     }
 }

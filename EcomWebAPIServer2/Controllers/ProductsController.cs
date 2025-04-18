@@ -74,5 +74,14 @@ namespace EcomWebAPIServer2.Controllers
         {
             return Ok(service.DeleteProduct(id));
         }
+
+
+        [HttpGet("search")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> SearchProducts(string query)
+        {
+            var products = await service.SearchProductsAsync(query);
+            return Ok(products);
+        }
     }
 }
