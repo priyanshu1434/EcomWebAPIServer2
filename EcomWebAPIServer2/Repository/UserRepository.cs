@@ -1,4 +1,7 @@
-﻿using EcomWebAPIServer2.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using EcomWebAPIServer2.Models;
 
 namespace EcomWebAPIServer2.Repository
 {
@@ -28,14 +31,18 @@ namespace EcomWebAPIServer2.Repository
 
         public int DeleteUser(int id)
         {
-            User c = db.Users.Where(x => x.UserId == id).FirstOrDefault();
-            db.Users.Remove(c);
-            return db.SaveChanges();
+            User userToDelete = db.Users.FirstOrDefault(x => x.UserId == id);
+            if (userToDelete != null)
+            {
+                db.Users.Remove(userToDelete);
+                return db.SaveChanges();
+            }
+            return 0; // Or throw an exception if deletion fails
         }
 
         public User GetUser(int id)
         {
-            return db.Users.Where(x => x.UserId == id).FirstOrDefault();
+            return db.Users.FirstOrDefault(x => x.UserId == id);
         }
 
         public List<User> GetUsers()
@@ -45,14 +52,30 @@ namespace EcomWebAPIServer2.Repository
 
         public int UpdateUser(int id, User user)
         {
-            User c = db.Users.Where(x => x.UserId == id).FirstOrDefault();
-            c.Name = user.Name;
-            c.Email = user.Email;
-            c.Password = user.Password;
-            c.PhoneNumber = user.PhoneNumber;
-            c.Address = user.Address;
-            db.Entry<User>(c).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            return db.SaveChanges();
+            User existingUser = db.Users.FirstOrDefault(x => x.UserId == id);
+            if (existingUser != null)
+            {
+                existingUser.Name = user.Name;
+                existingUser.Email = user.Email;
+                existingUser.Password = user.Password;
+                existingUser.PhoneNumber = user.PhoneNumber;
+                existingUser.Address = user.Address;
+                db.Entry(existingUser).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                return db.SaveChanges();
+            }
+            return 0; // Or throw an exception if update fails
+        }
+
+        public void UpdatePassword(int userId, string newPassword)
+        {
+            User userToUpdate = db.Users.FirstOrDefault(x => x.UserId == userId);
+            if (userToUpdate != null)
+            {
+                userToUpdate.Password = newPassword; // In a real app, hash the password before saving
+                db.Entry(userToUpdate).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                db.SaveChanges();
+            }
+            // Optionally handle the case where the user is not found
         }
     }
 }

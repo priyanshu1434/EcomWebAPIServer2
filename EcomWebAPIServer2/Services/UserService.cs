@@ -58,7 +58,12 @@ namespace EcomWebAPIServer2.Services
             return user;
         }
 
-        public List<User> GetUsers()
+        public User GetUserByEmail(string email)
+        {
+            return repo.GetUsers().FirstOrDefault(u => u.Email == email);
+        }
+
+        public System.Collections.Generic.List<User> GetUsers()
         {
             return repo.GetUsers();
         }
@@ -73,11 +78,14 @@ namespace EcomWebAPIServer2.Services
             return repo.UpdateUser(id, user);
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
+        public void UpdatePassword(int userId, string newPassword)
         {
-            // Convert List<User> to IQueryable<User> to use FirstOrDefaultAsync
-            var users = repo.GetUsers().AsQueryable();
-            return await users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = repo.GetUser(userId);
+            if (user == null)
+            {
+                throw new UserNotFoundException($"User with user id {userId} does not exist");
+            }
+            repo.UpdatePassword(userId, newPassword);
         }
     }
 }
