@@ -6,6 +6,7 @@ using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using EcomWebAPIServer2.Exception;
 
 namespace EcomWebAPIServer2.Controllers
 {
@@ -16,7 +17,7 @@ namespace EcomWebAPIServer2.Controllers
     {
         private readonly IUserService service;
         private static readonly Random _random = new Random();
-        private static readonly Dictionary<int, int> _passwordResetRequests = new Dictionary<int, int>(); 
+        private static readonly Dictionary<int, int> _passwordResetRequests = new Dictionary<int, int>(); // UserId, OTP
 
         public UsersController(IUserService service)
         {
@@ -51,7 +52,20 @@ namespace EcomWebAPIServer2.Controllers
                 PhoneNumber = Phonenumber,
                 Address = Address,
             };
-            return StatusCode(201, service.AddUser(user));
+
+            try
+            {
+                service.AddUser(user);
+                return StatusCode(201, "User created successfully");
+            }
+            catch (UserAlreadyExistsException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", details = ex.Message });
+            }
         }
 
         [HttpPut]
@@ -89,14 +103,15 @@ namespace EcomWebAPIServer2.Controllers
                 return NotFound(new { message = "User with this email not found." });
             }
 
-            
-            int otp = _random.Next(100000, 999999); 
+            // Generate a random OTP
+            int otp = _random.Next(100000, 999999); // 6-digit OTP
 
-           
+            // Store the OTP associated with the user ID
             _passwordResetRequests[user.UserId] = otp;
 
-            
-            Console.WriteLine($"Generated OTP for User ID {user.UserId}: {otp}"); 
+            // In a real application, you would send this OTP to the user's email/phone.
+            // Since you're not using external services, we'll just return it for demonstration.
+            Console.WriteLine($"Generated OTP for User ID {user.UserId}: {otp}"); // For demonstration purposes
 
             return Ok(new { message = "OTP generated successfully. Please use it to reset your password.", otp = otp });
         }
@@ -109,7 +124,7 @@ namespace EcomWebAPIServer2.Controllers
             var userId = _passwordResetRequests.FirstOrDefault(x => x.Value == otp).Key;
             if (userId != 0)
             {
-               
+                // OTP is valid, proceed to reset the password
                 _passwordResetRequests.Remove(userId);
 
                 var user = service.GetUser(userId);
@@ -118,6 +133,7 @@ namespace EcomWebAPIServer2.Controllers
                     return NotFound(new { message = "User not found." });
                 }
 
+                // Update the user's password in the database
                 service.UpdatePassword(userId, newPassword);
 
                 return Ok(new { message = "Password reset successfully." });
@@ -126,6 +142,14 @@ namespace EcomWebAPIServer2.Controllers
             {
                 return BadRequest(new { message = "Invalid OTP." });
             }
+        }
+
+        [HttpGet("emails")]
+        [AllowAnonymous]
+        public IActionResult GetEmails()
+        {
+            var emails = service.GetUsers().Select(u => u.Email).ToList();
+            return Ok(emails);
         }
     }
 }
