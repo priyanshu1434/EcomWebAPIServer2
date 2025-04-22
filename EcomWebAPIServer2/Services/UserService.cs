@@ -26,10 +26,6 @@ namespace EcomWebAPIServer2.Services
                 throw new UserAlreadyExistsException($"User with email {user.Email} already exists");
             }
 
-            if (repo.GetUsers().Any(u => u.PhoneNumber == user.PhoneNumber))
-            {
-                throw new UserAlreadyExistsException($"User with phone number {user.PhoneNumber} already exists");
-            }
 
             return repo.AddUser(user);
         }
