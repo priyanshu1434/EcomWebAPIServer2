@@ -19,7 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyCorsPolicy", builder => builder
-        .WithOrigins("http://localhost:3000", "http://localhost:5173", "http://localhost:5174")
+        .WithOrigins("http://localhost:3000", "http://localhost:7136", "http://localhost:5174", "http://localhost:3001", "http://localhost:3002", "http://localhost:3003", "http://localhost:3004", "http://localhost:3005", "http://localhost:5173")
         .AllowAnyMethod()
         .AllowAnyHeader()
         .AllowCredentials()

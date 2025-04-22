@@ -16,7 +16,7 @@ namespace EcomWebAPIServer2.Controllers
     {
         private readonly IUserService service;
         private static readonly Random _random = new Random();
-        private static readonly Dictionary<int, int> _passwordResetRequests = new Dictionary<int, int>(); // UserId, OTP
+        private static readonly Dictionary<int, int> _passwordResetRequests = new Dictionary<int, int>(); 
 
         public UsersController(IUserService service)
         {
@@ -89,15 +89,14 @@ namespace EcomWebAPIServer2.Controllers
                 return NotFound(new { message = "User with this email not found." });
             }
 
-            // Generate a random OTP
-            int otp = _random.Next(100000, 999999); // 6-digit OTP
+            
+            int otp = _random.Next(100000, 999999); 
 
-            // Store the OTP associated with the user ID
+           
             _passwordResetRequests[user.UserId] = otp;
 
-            // In a real application, you would send this OTP to the user's email/phone.
-            // Since you're not using external services, we'll just return it for demonstration.
-            Console.WriteLine($"Generated OTP for User ID {user.UserId}: {otp}"); // For demonstration purposes
+            
+            Console.WriteLine($"Generated OTP for User ID {user.UserId}: {otp}"); 
 
             return Ok(new { message = "OTP generated successfully. Please use it to reset your password.", otp = otp });
         }
@@ -110,7 +109,7 @@ namespace EcomWebAPIServer2.Controllers
             var userId = _passwordResetRequests.FirstOrDefault(x => x.Value == otp).Key;
             if (userId != 0)
             {
-                // OTP is valid, proceed to reset the password
+               
                 _passwordResetRequests.Remove(userId);
 
                 var user = service.GetUser(userId);
@@ -119,7 +118,6 @@ namespace EcomWebAPIServer2.Controllers
                     return NotFound(new { message = "User not found." });
                 }
 
-                // Update the user's password in the database
                 service.UpdatePassword(userId, newPassword);
 
                 return Ok(new { message = "Password reset successfully." });

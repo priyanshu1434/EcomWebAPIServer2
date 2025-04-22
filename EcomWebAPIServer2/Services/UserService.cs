@@ -1,9 +1,7 @@
 ﻿using EcomWebAPIServer2.Exception;
 using EcomWebAPIServer2.Models;
 using EcomWebAPIServer2.Repository;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EcomWebAPIServer2.Services
 {

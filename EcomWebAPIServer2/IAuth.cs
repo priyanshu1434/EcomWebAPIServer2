@@ -2,6 +2,6 @@
 {
     public interface IAuth
     {
-        AuthResult Authentication(string username, string password);
+        Auth.AuthResult Authentication(string username, string password);
     }
 }

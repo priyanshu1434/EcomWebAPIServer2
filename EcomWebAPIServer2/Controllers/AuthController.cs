@@ -1,11 +1,5 @@
 ﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
 
 namespace EcomWebAPIServer2.Controllers
 {
@@ -14,6 +8,7 @@ namespace EcomWebAPIServer2.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuth _authService;
+
         public AuthController(IAuth authService)
         {
             _authService = authService;
@@ -27,7 +22,13 @@ namespace EcomWebAPIServer2.Controllers
             {
                 return Unauthorized("Invalid username or password");
             }
-            return Ok(new { token = authResult.Token, userId = authResult.UserId });
+            return Ok(new { token = authResult.Token, userId = authResult.UserId, role = authResult.Role });
         }
+    }
+
+    public class LoginRequest
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
 }

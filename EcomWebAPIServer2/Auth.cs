@@ -48,18 +48,20 @@ namespace EcomWebAPIServer2
             // 4. Create Token
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            // 5. Return Token and UserId from method
+            // 5. Return Token, UserId, and Role from method
             return new AuthResult
             {
                 Token = tokenHandler.WriteToken(token),
-                UserId = user.UserId
+                UserId = user.UserId,
+                Role = user.Role
             };
         }
-    }
 
-    public class AuthResult
-    {
-        public string Token { get; set; }
-        public int UserId { get; set; }
+        public class AuthResult
+        {
+            public string Token { get; set; }
+            public int UserId { get; set; }
+            public string Role { get; set; }
+        }
     }
 }
