@@ -23,7 +23,7 @@ namespace EcomWebAPIServer2.Repository
         public int AddPayment(Payment payment)
         {
             payment.PaymentId = UniqueNumberGenerate();
-            payment.Status = "Pending payment - For Order Comfirmation";
+            payment.Status = "Payment Failed";
             var cartItems = (from cartItem in db.CartItems
                              join product in db.Products on cartItem.ProductId equals product.ProductId
                              where cartItem.UserId == payment.UserId

@@ -19,7 +19,7 @@ namespace EcomWebAPIServer2.Controllers
             }
 
             [HttpGet]
-            [Authorize(Roles = "Admin,User")]
+            [Authorize(Roles = "admin,User")]
             
             public IActionResult Get()
             {
@@ -28,7 +28,7 @@ namespace EcomWebAPIServer2.Controllers
 
             [HttpGet]
             [Route("{id}")]
-            [Authorize(Roles = "Admin,User")]
+            [Authorize(Roles = "admin,User")]
             public IActionResult Get(int id)
             {
                 return Ok(service.GetOrder(id));
@@ -36,14 +36,14 @@ namespace EcomWebAPIServer2.Controllers
 
             [HttpGet]
             [Route("user-order/{id}")]
-            [Authorize(Roles = "Admin,User")]
+            [Authorize(Roles = "admin,User")]
             public IActionResult Getorder(int id)
             {
                 return Ok(service.GetOrdersByUserId(id));
             }
 
             [HttpPost]
-            [Authorize(Roles = "Admin,User")]
+            [Authorize(Roles = "admin,User")]
             public IActionResult Post(int userid, string shippingaddress)
             {
             var qq = new Order
@@ -56,7 +56,7 @@ namespace EcomWebAPIServer2.Controllers
 
             [HttpPut]
             [Route("{id}")]
-            [Authorize(Roles = "Admin,User")]
+            [Authorize(Roles = "admin,User")]
             public IActionResult Put(int id, Order order)
             {
                 return Ok(service.UpdateOrder(id, order));
@@ -64,7 +64,7 @@ namespace EcomWebAPIServer2.Controllers
 
             [HttpDelete]
             [Route("{id}")]
-            [Authorize(Roles = "Admin,User")]
+            [Authorize(Roles = "admin,User")]
             public IActionResult Delete(int id)
             {
                 return Ok(service.DeleteOrder(id));

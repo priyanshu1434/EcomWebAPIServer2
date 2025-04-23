@@ -24,7 +24,7 @@ namespace EcomWebAPIServer2.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "admin,User")]
         public IActionResult Get()
         {
             return Ok(service.GetPayments());
@@ -32,7 +32,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "admin,User")]
         public IActionResult Get(int id)
         {
             return Ok(service.GetPayment(id));
@@ -40,14 +40,14 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpGet]
         [Route("user-payments/{id}")]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "admin,User")]
         public IActionResult GetPayment(int id)
         {
             return Ok(service.GetPaymentById(id));
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "admin,User")]
         public IActionResult Post(int userid,string paymentmethod)
         {
             var kk = new Payment 
@@ -60,7 +60,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "admin,User")]
         public IActionResult Put(int id, Payment payment)
         {
             return Ok(service.UpdatePayment(id, payment));
@@ -68,7 +68,7 @@ namespace EcomWebAPIServer2.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "admin,User")]
         public IActionResult Delete(int id)
         {
             return Ok(service.DeletePayment(id));
